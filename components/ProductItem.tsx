@@ -1,41 +1,41 @@
 import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Collapsible from 'react-native-collapsible';
+import ProductDetailSummary from './ProductDetailSummary';
+import { IProduct } from '../utils/product';
 
-export default function ProductItem({ product }: { product: any }) {
+type ProductItemProps = {
+  product: IProduct;
+};
+
+export default function ProductItem({ product }: ProductItemProps) {
   const [collapsed, setCollapsed] = useState(true);
 
   const toggleCollapse = () => setCollapsed(!collapsed);
 
   return (
     <View style={styles.container}>
-        <TouchableOpacity onPress={toggleCollapse}>
-            <Image source={{ uri: product.image }} style={styles.image} />
-            <Text style={styles.name}>{product.title}</Text>
-        </TouchableOpacity>
-        <Collapsible collapsed={collapsed}>
-            <View style={styles.details}>
-                <Text>Category: {product.category}</Text>
-                <Text>Price: ${product.price}</Text>
-                <Text>Description: {product.description}</Text>
-            </View>
-        </Collapsible>
-        {!collapsed && (
-        <TouchableOpacity onPress={toggleCollapse}>
-            <Text style={styles.collapseButton}>-</Text>
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity onPress={toggleCollapse}>
+        <Image source={{ uri: product.image }} style={styles.image} />
+        <Text style={styles.name}>{product.title}</Text>
+      </TouchableOpacity>
+
+      <Collapsible collapsed={collapsed}>
+        <ProductDetailSummary product={product} />
+      </Collapsible>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 10,
-    padding: 10,
+    marginHorizontal: 16,
+    marginBottom: 16,
+    padding: 16,
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 8,
+    backgroundColor: '#fff',
   },
   image: {
     width: '100%',
@@ -47,13 +47,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: 5,
   },
-  details: {
-    marginTop: 10,
-  },
   collapseButton: {
-    textAlign: 'right',
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'red',
+    textAlign: 'center',
+    fontSize: 14,
+    color: 'blue',
+    marginTop: 10,
   },
 });

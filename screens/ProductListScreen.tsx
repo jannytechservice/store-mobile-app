@@ -4,6 +4,7 @@ import { Appbar, Card, Text } from 'react-native-paper';
 import ScreenLoader from '../components/ScreenLoader';
 import { useFetchProducts } from '../api/api'; 
 import { IProduct } from '../utils/product';
+import ProductItem from '../components/ProductItem';
 
 export default function ProductListScreen() {
     const { products, loading, error } = useFetchProducts();
@@ -27,15 +28,6 @@ export default function ProductListScreen() {
         setVisibleProducts(products.slice(0, pageSize));
     }, [products]);
 
-    const renderProduct = ({ item }: { item: IProduct }) => (
-        <Card style={styles.card}>
-            <Card.Cover source={{ uri: item.image }} />
-            <Card.Content>
-                <Text variant="titleMedium">{item.title}</Text>
-            </Card.Content>
-        </Card>
-    );
-
     if(loading) {
         return <ScreenLoader />
     }
@@ -47,10 +39,11 @@ export default function ProductListScreen() {
       </Appbar.Header>
       <FlatList
         data={visibleProducts}
-        renderItem={renderProduct}
+        renderItem={({ item }) => <ProductItem product={item} />}
         keyExtractor={(item) => item.id.toString()}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
+        contentContainerStyle={styles.listContent}
       />
     </View>
   );
@@ -69,5 +62,8 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     marginTop: 16,
+  },
+  listContent: {
+    paddingBottom: 16,
   },
 });

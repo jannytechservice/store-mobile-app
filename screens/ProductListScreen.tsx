@@ -1,38 +1,56 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
-import ProductItem from '../components/ProductItem';
-import { fetchProducts } from '../api/api';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { Appbar, Card, Text } from 'react-native-paper';
+import ScreenLoader from '../components/ScreenLoader';
+import { useFetchProducts } from '../api/api'; 
 import { IProduct } from '../utils/product';
 
 export default function ProductListScreen() {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [page, setPage] = useState(0);
-  const [loading, setLoading] = useState(false);
+    const { products, loading, error } = useFetchProducts();
+    const [page, setPage] = useState(0);
+    const [visibleProducts, setVisibleProducts] = useState<IProduct[]>([]);
+    const pageSize = 5;
 
-  const loadProducts = async () => {
-    setLoading(true);
-    const newProducts = await fetchProducts();
-    setProducts((prev) => [...prev, ...newProducts]);
-    setLoading(false);
-  };
+    const handleLoadMore = () => {
+        const nextPage = page + 1;
+        const startIndex = nextPage * pageSize;
+        const endIndex = startIndex + pageSize;
+        const moreProducts = products.slice(startIndex, endIndex);
 
-  useEffect(() => {
-    loadProducts();
-  }, [page]);
+        if (moreProducts.length > 0) {
+            setVisibleProducts((prev) => [...prev, ...moreProducts]);
+            setPage(nextPage);
+            }
+    };
 
-  const handleLoadMore = () => setPage((prev) => prev + 1);
+    useEffect(() => {
+        setVisibleProducts(products.slice(0, pageSize));
+    }, [products]);
 
-  const renderProduct = ({ item }: { item: any }) => <ProductItem product={item} />;
+    const renderProduct = ({ item }: { item: IProduct }) => (
+        <Card style={styles.card}>
+            <Card.Cover source={{ uri: item.image }} />
+            <Card.Content>
+                <Text variant="titleMedium">{item.title}</Text>
+            </Card.Content>
+        </Card>
+    );
+
+    if(loading) {
+        return <ScreenLoader />
+    }
 
   return (
     <View style={styles.container}>
+      <Appbar.Header>
+        <Appbar.Content title="Products" />
+      </Appbar.Header>
       <FlatList
-        data={products}
+        data={visibleProducts}
         renderItem={renderProduct}
         keyExtractor={(item) => item.id.toString()}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
-        ListFooterComponent={loading ? <ActivityIndicator size="large" /> : null}
       />
     </View>
   );
@@ -41,6 +59,15 @@ export default function ProductListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    backgroundColor: '#f6f6f6',
+  },
+  card: {
+    margin: 8,
+    elevation: 2,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 16,
   },
 });

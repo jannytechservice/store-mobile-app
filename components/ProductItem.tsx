@@ -9,20 +9,20 @@ export default function ProductItem({ product }: { product: any }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={toggleCollapse}>
-        <Image source={{ uri: product.image }} style={styles.image} />
-        <Text style={styles.name}>{product.title}</Text>
-      </TouchableOpacity>
-      <Collapsible collapsed={collapsed}>
-        <View style={styles.details}>
-          <Text>Category: {product.category}</Text>
-          <Text>Price: ${product.price}</Text>
-          <Text>Description: {product.description}</Text>
-        </View>
-      </Collapsible>
-      {!collapsed && (
         <TouchableOpacity onPress={toggleCollapse}>
-          <Text style={styles.collapseButton}>-</Text>
+            <Image source={{ uri: product.image }} style={styles.image} />
+            <Text style={styles.name}>{product.title}</Text>
+        </TouchableOpacity>
+        <Collapsible collapsed={collapsed}>
+            <View style={styles.details}>
+                <Text>Category: {product.category}</Text>
+                <Text>Price: ${product.price}</Text>
+                <Text>Description: {product.description}</Text>
+            </View>
+        </Collapsible>
+        {!collapsed && (
+        <TouchableOpacity onPress={toggleCollapse}>
+            <Text style={styles.collapseButton}>-</Text>
         </TouchableOpacity>
       )}
     </View>

@@ -1,13 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native';
-import ProductListScreen from './screens/ProductListScreen';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { StyleSheet, Text, View } from "react-native";
+import ProductListScreen from "./screens/ProductListScreen";
+import { Provider as PaperProvider } from "react-native-paper";
 
 export default function App() {
   return (
     <PaperProvider>
-    <View style={styles.container}>
-      <ProductListScreen />
-    </View>
+      <View style={styles.container}>
+        <ProductListScreen />
+      </View>
     </PaperProvider>
   );
 }
@@ -15,8 +15,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    justifyContent: "center",
   },
 });

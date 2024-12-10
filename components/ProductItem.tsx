@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import Collapsible from 'react-native-collapsible';
-import ProductDetailSummary from './ProductDetailSummary';
-import { IProduct } from '../utils/product';
+import React, { useState } from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import Collapsible from "react-native-collapsible";
+import ProductDetailSummary from "./ProductDetailSummary";
+import { IProduct } from "../types/product";
+import Animated, { Layout } from "react-native-reanimated";
 
 type ProductItemProps = {
   product: IProduct;
@@ -19,10 +20,11 @@ export default function ProductItem({ product }: ProductItemProps) {
         <Image source={{ uri: product.image }} style={styles.image} />
         <Text style={styles.name}>{product.title}</Text>
       </TouchableOpacity>
-
-      <Collapsible collapsed={collapsed}>
-        <ProductDetailSummary product={product} />
-      </Collapsible>
+      <Animated.View layout={Layout.springify()}>
+        <Collapsible collapsed={collapsed}>
+          {!collapsed && <ProductDetailSummary product={product} />}
+        </Collapsible>
+      </Animated.View>
     </View>
   );
 }
@@ -32,25 +34,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 16,
     padding: 16,
-    borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     borderRadius: 8,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: 150,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   name: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginVertical: 5,
-  },
-  collapseButton: {
-    textAlign: 'center',
-    fontSize: 14,
-    color: 'blue',
-    marginTop: 10,
   },
 });

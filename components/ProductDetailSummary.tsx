@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Rating } from 'react-native-ratings';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { Rating } from "react-native-ratings";
 
-import { IProduct } from '../utils/product';
+import { IProduct } from "../types/product";
 
 type ProductDetailSummaryProps = {
   product: IProduct;
@@ -37,24 +37,18 @@ export default function ProductDetailSummary({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    marginVertical: 10,
+    backgroundColor: "#fff",
   },
   category: {
     fontSize: 12,
-    fontWeight: '600',
-    color: '#28a745',
-    textTransform: 'uppercase',
-    marginBottom: 8,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "600",
+    color: "#28a745",
+    textTransform: "uppercase",
     marginBottom: 8,
   },
   ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 8,
   },
   rating: {
@@ -62,17 +56,17 @@ const styles = StyleSheet.create({
   },
   reviewCount: {
     fontSize: 12,
-    color: '#6c757d',
+    color: "#6c757d",
   },
   price: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#000',
+    fontWeight: "bold",
+    color: "#000",
     marginBottom: 8,
   },
   description: {
     fontSize: 14,
-    color: '#6c757d',
+    color: "#6c757d",
     lineHeight: 20,
   },
 });
